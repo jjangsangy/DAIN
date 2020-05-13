@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+export CC=gcc CXX=g++
+
 cd MinDepthFlowProjection
 rm -rf build *.egg-info dist
 python setup.py install
