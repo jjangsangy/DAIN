@@ -1,4 +1,4 @@
-#include <torch/torch.h>
+#include <torch/extension.h>
 #include <ATen/ATen.h>
 #include <stdio.h>
 #include <iostream>
@@ -29,7 +29,7 @@ int SeparableConvFlowLayer_gpu_forward(
 	int w = input1.size(3);
 	if(input2.size(2) != h - input2.size(1) + 1) return error;// to add some checkpoint
 	if(input2.size(3) != w - input2.size(1) + 1) return error;
-	
+
 
 	int input1_b_stride = input1.stride(0);
 	int input1_c_stride = input1.stride(1);
@@ -50,11 +50,11 @@ int SeparableConvFlowLayer_gpu_forward(
 	//int output_c_stride = output.stride(1);
 	//int output_h_stride = output.stride(2);
 	//int output_w_stride = output.stride(3);
-	
+
     int flow_output_b_stride = flow_output.stride(0);
 	int flow_output_c_stride = flow_output.stride(1);
 	int flow_output_h_stride = flow_output.stride(2);
-	int flow_output_w_stride = flow_output.stride(3);	
+	int flow_output_w_stride = flow_output.stride(3);
     //printf("filter tensor shape: %d,%d,%d,%d\n", input3_b_stride,input3_c_stride,input3_h_stride,input3_w_stride);
 
 
@@ -91,8 +91,8 @@ int SeparableConvFlowLayer_gpu_forward(
 			input2,
 			input3,
 			//output ,
-			flow_output 
-			
+			flow_output
+
 			);
 	  if (error) {AT_ERROR("CUDA call failed");}
     //printf("filter tensor shape: %d,%d,%d,%d\n", input3_b_stride,input3_c_stride,input3_h_stride,input3_w_stride);
@@ -144,11 +144,11 @@ int SeparableConvFlowLayer_gpu_backward(
 	//int output_c_stride = gradoutput.stride(1);
 	//int output_h_stride = gradoutput.stride(2);
 	//int output_w_stride = gradoutput.stride(3);
-	
+
     int flow_output_b_stride = gradflow_output.stride(0);
 	int flow_output_c_stride = gradflow_output.stride(1);
 	int flow_output_h_stride = gradflow_output.stride(2);
-	int flow_output_w_stride = gradflow_output.stride(3);		
+	int flow_output_w_stride = gradflow_output.stride(3);
 
 //    printf("filter tensor shape: %d,%d,%d,%d\n", input3_b_stride,input3_c_stride,input3_h_stride,input3_w_stride);
 
